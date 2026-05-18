@@ -69,7 +69,7 @@ Rotinas organizacionais, controle de estoque, atendimento ao público e atualiza
 
 - 📧 pedroalvesbarcelos010@gmail.com  
 - 📱 +55 (61) 99610-4344  
-- 🔗 [LinkedIn](https://linkedin.com/in/pedrobarcelos010)
+- 🔗 [LinkedIn]([https://linkedin.com/in/pedrobarcelos010](https://www.linkedin.com/in/pedro-alves-barcelos-7009a240b/))
 
 ---
 
