@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Pedro Barcelos — Engenharia de Computação</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --border: #1e1e2e;
+    --accent: #c084fc;
+    --accent2: #818cf8;
+    --accent3: #34d399;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --card: #0f0f1a;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Mono', monospace;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(192,132,252,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(192,132,252,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Glow orbs */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+    animation: float 8s ease-in-out infinite;
+  }
+  .orb1 { width: 400px; height: 400px; background: rgba(192,132,252,0.08); top: -100px; right: -100px; animation-delay: 0s; }
+  .orb2 { width: 300px; height: 300px; background: rgba(129,140,248,0.06); bottom: 100px; left: -80px; animation-delay: 3s; }
+  .orb3 { width: 200px; height: 200px; background: rgba(52,211,153,0.05); top: 50%; left: 50%; animation-delay: 6s; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.2rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(10,10,15,0.8);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  main { position: relative; z-index: 1; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 6rem 2rem 4rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .hero-content { max-width: 700px; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(192,132,252,0.1);
+    border: 1px solid rgba(192,132,252,0.2);
+    color: var(--accent);
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .dot {
+    width: 6px; height: 6px;
+    background: var(--accent3);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+
+  h1 .line1 { display: block; color: var(--text); }
+  h1 .line2 {
+    display: block;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 50%, var(--accent3) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-desc {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.8;
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+
+  .btn {
+    padding: 0.75rem 1.8rem;
+    border-radius: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff;
+    font-weight: 500;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(192,132,252,0.35); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SECTIONS */
+  section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3rem;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .about-text { color: var(--muted); line-height: 1.9; font-size: 0.9rem; }
+  .about-text p { margin-bottom: 1rem; }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .skill-chip {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: 0.8rem;
+  }
+
+  .skill-chip .skill-icon { font-size: 1.4rem; margin-bottom: 0.5rem; display: block; }
+  .skill-chip .skill-name { color: var(--text); font-weight: 500; display: block; margin-bottom: 0.2rem; }
+  .skill-chip .skill-level { color: var(--muted); font-size: 0.72rem; }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.8rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+
+  .project-card:hover { border-color: rgba(192,132,252,0.3); transform: translateY(-4px); }
+  .project-card:hover::before { transform: scaleX(1); }
+
+  .project-tag {
+    display: inline-block;
+    background: rgba(192,132,252,0.1);
+    color: var(--accent);
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+  }
+
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.7rem;
+  }
+
+  .project-desc { color: var(--muted); font-size: 0.82rem; line-height: 1.7; margin-bottom: 1.5rem; }
+
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .tag {
+    background: rgba(129,140,248,0.1);
+    color: var(--accent2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+  }
+
+  .project-link {
+    color: var(--accent3);
+    text-decoration: none;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: gap 0.2s;
+  }
+  .project-link:hover { gap: 0.6rem; }
+
+  /* EXPERIENCE */
+  .exp-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.8rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .exp-icon {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .exp-title { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text); }
+  .exp-company { color: var(--accent); font-size: 0.82rem; margin: 0.3rem 0; }
+  .exp-date { color: var(--muted); font-size: 0.75rem; margin-bottom: 0.8rem; }
+  .exp-desc { color: var(--muted); font-size: 0.82rem; line-height: 1.7; }
+
+  /* CONTACT */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .contact-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.2s;
+  }
+
+  .contact-card:hover { border-color: rgba(192,132,252,0.4); transform: translateY(-2px); }
+  .contact-icon { font-size: 1.5rem; }
+  .contact-label { color: var(--muted); font-size: 0.72rem; display: block; margin-bottom: 0.2rem; }
+  .contact-value { color: var(--text); font-size: 0.85rem; }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    border-top: 1px solid var(--border);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0 2rem;
+  }
+
+  @media (max-width: 700px) {
+    .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<nav>
+  <div class="nav-logo">Pedro.dev</div>
+  <ul class="nav-links">
+    <li><a href="#sobre">sobre</a></li>
+    <li><a href="#projetos">projetos</a></li>
+    <li><a href="#experiencia">experiência</a></li>
+    <li><a href="#contato">contato</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        disponível para Jovem Aprendiz
+      </div>
+      <h1>
+        <span class="line1">Pedro Alves</span>
+        <span class="line2">Barcelos.</span>
+      </h1>
+      <p class="hero-desc">
+        Estudante de Engenharia de Computação no UniCEUB · 17 anos ·
+        Apaixonado por hardware embarcado, software e construir coisas que funcionam de verdade.
+      </p>
+      <div class="hero-cta">
+        <a href="https://github.com/pedrobarcelos010/portfolioHUB" class="btn btn-primary" target="_blank">Ver repositório →</a>
+        <a href="#contato" class="btn btn-outline">Entrar em contato</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SOBRE -->
+  <section id="sobre">
+    <div class="section-label">// sobre mim</div>
+    <h2>Quem sou eu</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>Me chamo Pedro, tenho 17 anos e curso Engenharia de Computação no UniCEUB (Brasília). Sou uma pessoa dedicada, responsável e com grande interesse em aprender e me desenvolver constantemente.</p>
+        <p>Tenho experiência prática em rotinas administrativas, controle de documentos e atendimento ao público — além de projetos técnicos de hardware embarcado com ESP32.</p>
+        <p>Busco uma oportunidade de <strong style="color:var(--accent)">Jovem Aprendiz</strong> para colocar em prática o que aprendo e contribuir com dedicação e vontade de crescer.</p>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-chip">
+          <span class="skill-icon">🇧🇷</span>
+          <span class="skill-name">Português</span>
+          <span class="skill-level">Nativo</span>
+        </div>
+        <div class="skill-chip">
+          <span class="skill-icon">🇺🇸</span>
+          <span class="skill-name">Inglês</span>
+          <span class="skill-level">Avançado</span>
+        </div>
+        <div class="skill-chip">
+          <span class="skill-icon">📊</span>
+          <span class="skill-name">Pacote Office</span>
+          <span class="skill-level">Avançado</span>
+        </div>
+        <div class="skill-chip">
+          <span class="skill-icon">🤝</span>
+          <span class="skill-name">Comunicação</span>
+          <span class="skill-level">Proatividade</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PROJETOS -->
+  <section id="projetos">
+    <div class="section-label">// projetos</div>
+    <h2>O que eu construí</h2>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-tag">🎸 Hardware Embarcado</div>
+        <div class="project-title">Afinador Digital Inteligente para Guitarra</div>
+        <p class="project-desc">Sistema baseado no ESP32 que captura o áudio das cordas, processa a frequência via FFT e exibe a nota e o desvio de afinação em tempo real em display OLED. Desenvolvido com Kalleb Abreu na disciplina Introdução à Computação — UniCEUB.</p>
+        <div class="project-stack">
+          <span class="tag">ESP32</span>
+          <span class="tag">C++</span>
+          <span class="tag">FFT</span>
+          <span class="tag">OLED SSD1306</span>
+          <span class="tag">Tinkercad</span>
+        </div>
+        <a href="https://github.com/pedrobarcelos010/portfolioHUB" class="project-link" target="_blank">Ver no GitHub →</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-tag">🌐 Portfolio Web</div>
+        <div class="project-title">PortfolioHUB — GitHub Pages</div>
+        <p class="project-desc">Repositório e site pessoal hospedado no GitHub Pages, com currículo, portfólio e projetos acadêmicos e pessoais. Construído com HTML, CSS e boas práticas de versionamento com Git.</p>
+        <div class="project-stack">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">Git</span>
+          <span class="tag">GitHub Pages</span>
+        </div>
+        <a href="https://github.com/pedrobarcelos010/portfolioHUB" class="project-link" target="_blank">Ver no GitHub →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- EXPERIÊNCIA -->
+  <section id="experiencia">
+    <div class="section-label">// experiência</div>
+    <h2>Onde trabalhei</h2>
+    <div class="exp-card">
+      <div class="exp-icon">🧦</div>
+      <div>
+        <div class="exp-title">Auxiliar Administrativo</div>
+        <div class="exp-company">Meias.com Divertidas — Formosa, GO</div>
+        <div class="exp-date">Março de 2024 — presente</div>
+        <div class="exp-desc">Realização de rotinas organizacionais, controle de documentos, controle de entrada e saída de produtos, atendimento ao público, apoio às atividades operacionais e atualização de planilhas.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTATO -->
+  <section id="contato">
+    <div class="section-label">// contato</div>
+    <h2>Fala comigo</h2>
+    <div class="contact-grid">
+      <a class="contact-card" href="mailto:pedroalvesbarcelos010@gmail.com">
+        <span class="contact-icon">✉️</span>
+        <div>
+          <span class="contact-label">e-mail</span>
+          <span class="contact-value">pedroalvesbarcelos010@gmail.com</span>
+        </div>
+      </a>
+      <a class="contact-card" href="tel:+5561996104344">
+        <span class="contact-icon">📱</span>
+        <div>
+          <span class="contact-label">telefone / whatsapp</span>
+          <span class="contact-value">+55 (61) 99610-4344</span>
+        </div>
+      </a>
+      <a class="contact-card" href="https://github.com/pedrobarcelos010/portfolioHUB" target="_blank">
+        <span class="contact-icon">🐙</span>
+        <div>
+          <span class="contact-label">github</span>
+          <span class="contact-value">pedrobarcelos010/portfolioHUB</span>
+        </div>
+      </a>
+      <a class="contact-card" href="https://linkedin.com/in/pedrobarcelos010" target="_blank">
+        <span class="contact-icon">💼</span>
+        <div>
+          <span class="contact-label">linkedin</span>
+          <span class="contact-value">pedrobarcelos010</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 Pedro Alves Barcelos · Feito com HTML & CSS puro · Hospedado no GitHub Pages
+</footer>
+
+</body>
+</html>
