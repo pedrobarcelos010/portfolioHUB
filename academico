@@ -1,8 +1,44 @@
-📚 Projetos Acadêmicos
-Projetos desenvolvidos durante o curso de Engenharia de Computação no UniCEUB.
-Projetos
-🎸 Afinador Digital Inteligente para Guitarra
-Disciplina: Introdução à Computação
-Parceiro: Kalleb Abreu
-Data: Abril/2026
-Descrição: Sistema embarcado com ESP32, FFT e display OLED para afinação de guitarra em tempo real.
+AFINADOR DIGITAL INTELIGENTE PARA 
+GUITARRA –  
+Centro Universitário de Brasília – UniCEUB 
+Curso: Engenharia da Computação 
+Disciplina: Introdução à Computação 
+Autores: Pedro Alves & Kalleb Abreu 
+Data: Abril / 2026 
+Resumo Executivo 
+O projeto consiste no desenvolvimento de um afinador digital inteligente para guitarra 
+baseado no microcontrolador ESP32. O sistema captura o áudio das cordas, processa a 
+frequência utilizando FFT e exibe ao usuário a nota detectada e o desvio de afinação em 
+tempo real. 
+Objetivo do Projeto 
+Desenvolver um sistema capaz de detectar automaticamente a frequência das cordas da 
+guitarra, indicar a precisão da afinação e permitir o armazenamento de presets 
+personalizados. 
+Problema Identificado 
+Afinadores tradicionais possuem limitações como ausência de presets personalizados, falta 
+de conectividade e menor precisão visual durante o processo de afinação. 
+Solução Proposta 
+O sistema utiliza sensor de áudio conectado ao ESP32 para capturar o sinal sonoro. O 
+processamento digital identifica a frequência fundamental e apresenta o resultado em 
+display OLED. 
+Arquitetura do Sistema 
+A arquitetura é dividida em três camadas: hardware embarcado (captura de áudio), 
+firmware (processamento FFT) e software complementar (armazenamento e 
+gerenciamento de presets). 
+Diagrama de Blocos do Sistema 
+Cordas da guitarra → Microfone → ESP32 → FFT → Display OLED  
+Componentes de Hardware 
+ESP32 DevKit V1, Microfone MAX4466, Display OLED SSD1306, Buzzer passivo, Botões 
+físicos e bateria LiPo. 
+Software Utilizado 
+Firmware em C++. 
+Justificativa do Uso do ESP32 
+O ESP32 foi escolhido por possuir maior capacidade de processamento e conectividade 
+Wi‑Fi integrada, sendo adequado para aplicações de processamento de áudio em tempo 
+real. 
+Ferramentas Utilizadas 
+O circuito do sistema foi prototipado na plataforma Tinkercad utilizando Arduino Uno como 
+ambiente de simulação equivalente ao ESP32. O potenciômetro foi empregado para simular 
+a variação da frequência captada pelo sensor de áudio. O sistema responde com sinal visual 
+(LED) e sonoro (buzzer) quando a leitura entra na faixa de afinação definida, demonstrando 
+o funcionamento básico do algoritmo de detecção. 
